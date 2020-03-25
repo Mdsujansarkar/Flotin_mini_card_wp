@@ -25,18 +25,16 @@ class Floting_Mini_Cart {
 
 		add_filter( 'woocommerce_settings_tabs_array', array( $this, 'settings_tab'), 50 );
         add_action( 'woocommerce_settings_tabs_floating_minicart', array( $this, 'add_settings_tab') );
-        add_action( 'woocommerce_update_options_floating_minicart', array( $this, 'fmc_update_settings') );
+        add_action( 'woocommerce_update_options_floating_minicart', array( $this, 'wooc_update_settings') );
 		
 		//add custom type
-        add_action( 'woocommerce_admin_field_fmc_section_title', array( $this,'output_fmc_section_title'), 100, 1 );
-
-		
+        add_action( 'woocommerce_admin_section_title', array( $this,'output_section_title'), 100, 1 );
 	}
 
-	public static function output_fmc_section_title($value){
+	public static function output_section_title($value){
 	        ?>
         	<tr valign="top">
-						<th scope="row" class="titledesc fmc-section-title" colspan="2">					
+						<th scope="row" class="titledesc section-title" colspan="2">					
 							<h2><?php echo $value['title']; ?></h2>
 						</th>						
 			</tr>
@@ -45,9 +43,6 @@ class Floting_Mini_Cart {
 
 	 /**
      * Add a new settings tab to the WooCommerce settings tabs array.
-     *
-     * @param array $settings_tabs Array of WooCommerce setting tabs & their labels, excluding the Subscription tab.
-     * @return array $settings_tabs Array of WooCommerce setting tabs & their labels, including the Subscription tab.
      */
     public static function settings_tab( $settings_tabs ) {
         $settings_tabs['floating_minicart'] = __( 'Floating Minicart', 'minicartt' );
@@ -56,9 +51,6 @@ class Floting_Mini_Cart {
 
     /**
      * Uses the WooCommerce admin fields API to output settings via the @see woocommerce_admin_fields() function.
-     *
-     * @uses woocommerce_admin_fields()
-     * @uses self::fmc_get_settings()
      */
     public static function add_settings_tab() {
         woocommerce_admin_fields( self::woo_floating_setting_mini_cart() );
@@ -66,18 +58,13 @@ class Floting_Mini_Cart {
 
     /**
      * Uses the WooCommerce options API to save settings via the @see woocommerce_update_options() function.
-     *
-     * @uses woocommerce_update_options()
-     * @uses self::fmc_get_settings()
      */
-    public static function fmc_update_settings() {
+    public static function wooc_update_settings() {
         woocommerce_update_options( self::woo_floating_setting_mini_cart() );
     }
    
 	/**
 	 * Loading  floating minicart setting to the woocommerce general product product admin setting section.
-	 *
-	 * @return array
 	 */
 
 
